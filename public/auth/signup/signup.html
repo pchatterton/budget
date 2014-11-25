@@ -1,0 +1,115 @@
+<div class='main-container'>
+	<div class="signup-content">
+		<h1>Signup</h1>
+		<form class='form-horizontal' name='signupForm' role='form'  ng-submit='signupUser()' novalidate>
+			<!-- Name -->
+			<div class='form-group has-feedback' ng-class="{'has-error' : signupForm.name.$touched && signupForm.name.$dirty && signupForm.name.$invalid, 'has-success' : signupForm.name.$touched && signupForm.name.$dirty && signupForm.name.$valid}">
+				<label class="col-sm-2 control-label" for='name'>Name:</label>
+				<div class="col-sm-4">
+					<input type='text' class='form-control' id='name' name='name' ng-focus="signupForm.name.$touched=false" ng-model='newUser.name' required >
+					<div ng-show="signupForm.name.$touched && signupForm.name.$dirty">
+						<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="signupForm.name.$valid"></span>
+						<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="signupForm.name.$invalid"></span>
+					</div>
+				</div>
+				<div class="col-sm-4 input-messages" ng-messages="signupForm.name.$error" ng-show="signupForm.name.$touched && signupForm.name.$dirty && signupForm.name.$invalid">
+					<div class="input-message" ng-message="required">
+						<p class="help-block">Name is required.</p>
+					</div>
+				</div>
+			</div>
+			<!-- Email -->
+			<div class='form-group has-feedback' ng-class="{'has-error' : signupForm.email.$touched && signupForm.email.$dirty && signupForm.email.$invalid, 'has-success' : signupForm.email.$touched && signupForm.email.$dirty && signupForm.email.$valid}">
+				<label class="col-sm-2 control-label" for='email'>Email:</label>
+				<div class="col-sm-4">
+					<input type='email' class='form-control' id='email' name='email' ng-model='newUser.email' ng-blur="validateEmail()" ng-focus="signupForm.email.$touched=false" required>
+					<div ng-show="signupForm.email.$touched && signupForm.email.$dirty">
+						<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="signupForm.email.$valid"></span>
+						<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="signupForm.email.$invalid"></span>
+					</div>
+				</div>
+				<div class="col-sm-4" ng-messages="signupForm.email.$error" ng-show="signupForm.email.$touched && signupForm.email.$dirty && signupForm.email.$invalid">
+					<div class='help-block' ng-message="required">
+						The email is required.
+					</div>
+					<div class='help-block' ng-message="email">
+						Not a valid email.
+					</div>
+					<div class='help-block' ng-message="emailTaken">
+						This email is already taken.
+					</div>
+				</div>
+			</div>
+			<!-- Username -->
+			<div class='form-group has-feedback' ng-class="{'has-error' : signupForm.username.$touched && signupForm.username.$dirty && signupForm.username.$invalid, 'has-success' : signupForm.username.$touched && signupForm.username.$dirty && signupForm.username.$valid}">
+				<label class="col-sm-2 control-label" for='username'>Username:</label>
+				<div class="col-sm-4">
+					<input type='username' class='form-control' id='username' name='username' ng-model='newUser.username' ng-blur="validateUsername()" ng-focus="signupForm.username.$touched=false" ng-minlength="6" required>
+					<div ng-show="signupForm.username.$touched && signupForm.username.$dirty">
+						<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="signupForm.username.$valid"></span>
+						<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="signupForm.username.$invalid"></span>
+					</div>
+				</div>
+				<div class="col-sm-4" ng-messages="signupForm.username.$error" ng-show="signupForm.username.$touched && signupForm.username.$dirty && signupForm.username.$invalid">
+					<div class='help-block' ng-message="required">
+						The username is required.
+					</div>
+					<div class='help-block' ng-message="minlength">
+						Username should be at least 6 characters.
+					</div>
+					<div class='help-block' ng-message="usernameTaken">
+						This username is already taken.
+					</div>
+				</div>
+			</div>
+			<!-- Password -->
+			<div class='form-group has-feedback' ng-class="{'has-error' : signupForm.password.$touched && signupForm.password.$dirty && signupForm.password.$invalid, 'has-success' : signupForm.password.$touched && signupForm.password.$dirty && signupForm.password.$valid}">
+				<label class="col-sm-2 control-label" for='password'>Password:</label>
+				<div class="col-sm-4">
+					<input type='password' class='form-control' id='password' name='password' ng-model='newUser.password' ng-blur="validatepassword()" ng-focus="signupForm.password.$touched=false" ng-minlength="6" required>
+					<div ng-show="signupForm.password.$touched && signupForm.password.$dirty">
+						<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="signupForm.password.$valid"></span>
+						<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="signupForm.password.$invalid"></span>
+					</div>
+				</div>
+				<div class="col-sm-4" ng-messages="signupForm.password.$error" ng-show="signupForm.password.$touched && signupForm.password.$dirty && signupForm.password.$invalid">
+					<div class='help-block' ng-message="required">
+						Password is required.
+					</div>
+					<div class='help-block' ng-message="minlength">
+						Password should be at least 6 characters.
+					</div>
+				</div>
+			</div>
+			<!-- Password Repeat -->
+<!-- 			<div class='form-group has-feedback' ng-class="{'has-error' : signupForm.passwordRpt.$dirty && signupForm.passwordRpt.$invalid, 'has-success' : signupForm.passwordRpt.$dirty && signupForm.passwordRpt.$valid}">
+				<label class="col-sm-2 control-label" for='passwordRpt'>Repeat Password:</label>
+				<div class="col-sm-4">
+					<input type='password' class='form-control' id='passwordRpt' name='passwordRpt' ng-model='newUser.passwordRpt' validate-password-check ng-minlength="6" required>
+					<div ng-show="signupForm.passwordRpt.$dirty">
+						<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="signupForm.passwordRpt.$valid"></span>
+						<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="signupForm.passwordRpt.$invalid"></span>
+					</div>
+				</div>
+				<div class="col-sm-4" ng-messages="signupForm.passwordRpt.$error" ng-show="signupForm.passwordRpt.$dirty && signupForm.passwordRpt.$invalid">
+					<div class='help-block' ng-message="required">
+						Please confirm your password
+					</div>
+					<div class='help-block' ng-message="noMatch">
+						Password doesn't match.
+					</div>
+				</div>
+			</div> -->
+			<!-- Birthday -->
+			<div class='form-group'>
+				<label class="col-sm-2 control-label" for='bdayMonth'>Birthday:</label>
+				<div  class="col-sm-4">
+					<select ng-model="bdayMonth" ng-options="months.indexOf(m) as m for m in months">
+					</select>
+					<input type="number" ng-model="newUser.bdayDay" min="1" max="31">
+				</div>
+			</div>
+			<button type="submit" class="btn btn-default">Signup</button>
+		</form>
+	</div>
+</div>
